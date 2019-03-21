@@ -1,10 +1,10 @@
 db:
   mysql:
-    host:
-    port:
-    name:
-    user:
-    pass:
+    host: mysqldb
+    port: 3306
+    name: testdb
+    user: root
+    pass: 123456aA
 
 spring:
   datasource:

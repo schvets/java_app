@@ -1,0 +1,36 @@
+version: '2.2'
+services:
+  db:
+    image: mysql/mysql-server:5.7
+    restart: always
+    environment:
+      DB_MYSQL_HOST: 'mysqldb'
+      DB_MYSQL_PORT: '3306'
+      DB_MYSQL_NAME: 'testdb'
+      DB_MYSQL_USER: 'root'
+      DB_MYSQL_PASS: '123456aA'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - my-db:/var/lib/mysql
+  hola:
+    depends_on:
+      - 'db'
+    links:
+      - 'db:3306'
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: holaweb
+    ports:
+      - '8091:8091'
+    networks:
+      - network1
+      
+volumes:
+  my-db:
+ 
+networks:
+  network1:

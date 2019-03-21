@@ -1,7 +1,7 @@
 FROM openjdk:8-jre
 
-ENV JAVA_OPTS="-Xmx256m -Xms256m" \
-    JAVA_PORT="8080" \
+ENV JAVA_OPTS="-Xmx256m -Xms256m -Dserver.port=8091" \
+    JAVA_PORT="8091" \
     JAR_DIR="/opt/myapp/" \
     JAR_NAME="app.jar"
 
