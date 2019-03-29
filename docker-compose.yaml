@@ -1,36 +1,38 @@
-version: '2.2'
+version: '3'
 services:
   db:
     image: mysql/mysql-server:5.7
-    restart: always
-    environment:
-      DB_MYSQL_HOST: 'mysqldb'
-      DB_MYSQL_PORT: '3306'
-      DB_MYSQL_NAME: 'testdb'
-      DB_MYSQL_USER: 'root'
-      DB_MYSQL_PASS: '123456aA'
-    ports:
-      - '3306:3306'
     expose:
-      - '3306'
-    volumes:
-      - my-db:/var/lib/mysql
+      - 3306
+    environment:
+      MYSQL_DATABASE: testdb
+      MYSQL_ROOT_PASSWORD: "123456aA"
+      MYSQL_ROOT_HOST: '%'
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 100M
+        reservations:
+          cpus: '0.50'
+          memory: 200M
   hola:
-    depends_on:
-      - 'db'
+    build: .
     links:
-      - 'db:3306'
-    build:
-      context: ./
-      dockerfile: Dockerfile
-    image: holaweb
+      - db
+    environment:
+      DB_MYSQL_HOST: db
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_NAME: "testdb"
+      DB_MYSQL_USER: root
+      DB_MYSQL_PASS: "123456aA"
     ports:
-      - '8091:8091'
-    networks:
-      - network1
-      
-volumes:
-  my-db:
- 
-networks:
-  network1:
+      - 8091:8091
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 100M
+        reservations:
+          cpus: '0.50'
+          memory: 200M
